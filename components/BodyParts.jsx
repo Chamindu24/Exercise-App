@@ -3,9 +3,12 @@ import React from 'react'
 import { FlatList, Text, TouchableOpacity, View, Image } from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { bodyParts } from '../constants';
+import { useRouter } from 'expo-router';
+import Animated,{FadeIn,FadeInDown,FadeOut} from 'react-native-reanimated';
 
 
 export default function BodyParts(){
+    const router = useRouter();
     return (
       <View className="mx-4">
         <Text style={{fontSize:hp(3)}} className="font-semibold text-neutral-700"> 
@@ -19,17 +22,24 @@ export default function BodyParts(){
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{paddingBottom:50,paddingTop:20}}
             columnWrapperStyle={{justifyContent:'space-between'}}
-            renderItem={({item,index}) => <BodyPartCard item={item} index={index} />}
+            renderItem={({item,index}) => <BodyPartCard item={item} index={index} router={router} />}
         />
 
       </View>
     )
 }
 
-const BodyPartCard = ({item,index}) => {
+const BodyPartCard = ({item,router,index}) => {
     return (
-        <View >
+        <Animated.View enetering={FadeInDown.duration(400).delay(index*200).springify()} >
             <TouchableOpacity
+                onPress={() => router.push({ 
+                    pathname: '/exercises', 
+                    params: { 
+                        name: item.name, 
+                        image: item.image 
+                    } 
+                })}
                 style={{width:wp(44),height:wp(52)}}
                 className="flex justify-end p-4 mb-4"
             >
@@ -48,6 +58,6 @@ const BodyPartCard = ({item,index}) => {
                 </Text>
 
             </TouchableOpacity>
-        </View>
+        </Animated.View>
     )
 }

@@ -9,7 +9,10 @@ export default function _layout() {
         screenOptions={{
           headerShown: false,
         }}
-        />
+      >
+        <Stack.Screen name='exercises' options={{presentation:'fullScreenModel'}} />
+        <Stack.Screen name='exerciseDetails' options={{presentation:'model'}} />
+      </Stack>
     )
   
 }
